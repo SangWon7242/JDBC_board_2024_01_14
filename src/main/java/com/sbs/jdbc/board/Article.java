@@ -1,5 +1,7 @@
 package com.sbs.jdbc.board;
 
+import java.util.Comparator;
+
 public class Article {
   public int id;
   public String title;
@@ -12,6 +14,10 @@ public class Article {
     this.body = body;
   }
 
+  public int getId() {
+    return id;
+  }
+
   @Override
   public String toString() {
     return "Article{" +
@@ -20,4 +26,6 @@ public class Article {
         ", body='" + body + '\'' +
         '}';
   }
+
+  public static Comparator<Article> idComparator = Comparator.comparingInt(Article::getId);
 }

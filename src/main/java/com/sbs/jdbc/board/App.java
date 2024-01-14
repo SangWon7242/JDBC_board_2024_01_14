@@ -52,10 +52,26 @@ public class App {
         }
          */
 
-        for(int i = articles.size() - 1; i >= 0; i--) {
-          Article article = articles.get(i);
-          System.out.printf("%d / %s\n", article.id, article.title);
-        }
+//        for(int i = articles.size() - 1; i >= 0; i--) {
+//          Article article = articles.get(i);
+//          System.out.printf("%d / %s\n", article.id, article.title);
+//        }
+
+        // 스트림 방식으로 정순 출력
+        /*
+        List<Article> sortedArticles = articles.stream()
+            .sorted(Article.idComparator) // id를 기준으로 정렬하겠다.
+            .collect(Collectors.toList()); // 해당 스트림을 list로 변환
+
+        sortedArticles.forEach(article -> System.out.printf("%d / %s\n", article.id, article.title));
+         */
+
+        // 스트림 방식으로 역순 출력
+        List<Article> reversedArticles = articles.stream()
+            .sorted(Article.idComparator.reversed()) // id를 기준으로 정렬하겠다.
+            .collect(Collectors.toList()); // 해당 스트림을 list로 변환
+
+        reversedArticles.forEach(article -> System.out.printf("%d / %s\n", article.id, article.title));
 
       }
       else if(cmd.equals("exit")) {
