@@ -1,12 +1,10 @@
 package com.sbs.jdbc.board;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class App {
 
@@ -95,38 +93,87 @@ public class App {
       else if(cmd.equals("/usr/article/list")) {
         System.out.println("== 게시물 리스트 ==");
 
+        // JDBC 드라이버 클래스 이름
+        String jdbcDriver = "com.mysql.cj.jdbc.Driver";
+
+        // 데이터베이스 연결 정보
+        String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
+        String username = "sbsst";
+        String password = "sbs123414";
+
+        Connection conn = null;
+        PreparedStatement pstat = null;
+        ResultSet rs = null;
+
+        try {
+          // JDBC 드라이버 로드
+          Class.forName(jdbcDriver);
+
+          // 데이터베이스에 연결
+          conn = DriverManager.getConnection(url, username, password);
+
+          String sql = "SELECT *";
+          sql += " FROM article";
+          sql += " ORDER BY id DESC;";
+
+          pstat = conn.prepareStatement(sql);
+          rs = pstat.executeQuery(sql);
+
+          while (rs.next()) {
+            int id = rs.getInt("id");
+            String regDate = rs.getString("regDate");
+            String updateDate = rs.getString("updateDate");
+            String title = rs.getString("title");
+            String body = rs.getString("body");
+
+            Article article = new Article(id, regDate, updateDate, title, body);
+            articles.add(article);
+          }
+
+        } catch (ClassNotFoundException e) {
+          System.out.println("드라이버 로딩 실패");
+        } catch (SQLException e) {
+          System.out.println("에러 : " + e);
+        } finally {
+          try {
+            if (rs != null && !rs.isClosed()) {
+              rs.close();
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+          try {
+            if (pstat != null && !pstat.isClosed()) {
+              pstat.close();
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+          try {
+            if (conn != null && !conn.isClosed()) {
+              // 연결 닫기
+              conn.close();
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+
         if(articles.isEmpty()) {
           System.out.println("게시물이 존재하지 않습니다.");
           continue;
         }
 
-        /*
+        System.out.println("번호 / 제목");
         for(Article article : articles) {
           System.out.printf("%d / %s\n", article.id, article.title);
         }
-         */
-
-//        for(int i = articles.size() - 1; i >= 0; i--) {
-//          Article article = articles.get(i);
-//          System.out.printf("%d / %s\n", article.id, article.title);
-//        }
-
-        // 스트림 방식으로 정순 출력
         /*
-        List<Article> sortedArticles = articles.stream()
-            .sorted(Article.idComparator) // id를 기준으로 정렬하겠다.
-            .collect(Collectors.toList()); // 해당 스트림을 list로 변환
-
-        sortedArticles.forEach(article -> System.out.printf("%d / %s\n", article.id, article.title));
-         */
-
-        // 스트림 방식으로 역순 출력
-        List<Article> reversedArticles = articles.stream()
-            .sorted(Article.idComparator.reversed()) // id를 기준으로 정렬하겠다.
-            .collect(Collectors.toList()); // 해당 스트림을 list로 변환
-
-        reversedArticles.forEach(article -> System.out.printf("%d / %s\n", article.id, article.title));
-
+        for(int i = articles.size() - 1; i >= 0; i--) {
+          Article article = articles.get(i);
+          System.out.printf("%d / %s\n", article.id, article.title);
+        }
+        */
       }
       else if(cmd.equals("exit")) {
         System.out.println("== 프로그램을 종료합니다 ==");
