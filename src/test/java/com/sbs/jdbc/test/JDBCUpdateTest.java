@@ -18,9 +18,6 @@ public class JDBCUpdateTest {
 
     Connection conn = null;
     PreparedStatement pstat = null;
-    ResultSet rs = null;
-
-    List<Article> articles = new ArrayList<>();
 
     try {
       // JDBC 드라이버 로드
@@ -45,13 +42,6 @@ public class JDBCUpdateTest {
     } catch (SQLException e) {
       System.out.println("에러 : " + e);
     } finally {
-      try {
-        if (rs != null && !rs.isClosed()) {
-          rs.close();
-        }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
       try {
         if (pstat != null && !pstat.isClosed()) {
           pstat.close();
