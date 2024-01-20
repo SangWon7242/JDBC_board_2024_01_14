@@ -4,12 +4,23 @@ import java.util.Comparator;
 
 public class Article {
   public int id;
+  public String regDate;
+  public String updateDate;
+
   public String title;
   public String body;
 
   // 생성자 메서드 : 객첵가 만들어질 때 딱 한번 실행!!
   public Article(int id, String title, String body) {
     this.id = id;
+    this.title = title;
+    this.body = body;
+  }
+
+  public Article(int id, String regDate, String updateDate, String title, String body) {
+    this.id = id;
+    this.regDate = regDate;
+    this.updateDate = updateDate;
     this.title = title;
     this.body = body;
   }
