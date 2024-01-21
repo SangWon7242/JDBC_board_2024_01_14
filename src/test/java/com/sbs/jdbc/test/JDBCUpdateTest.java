@@ -1,10 +1,6 @@
 package com.sbs.jdbc.test;
 
-import com.sbs.jdbc.board.Article;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JDBCUpdateTest {
   public static void main(String[] args) {

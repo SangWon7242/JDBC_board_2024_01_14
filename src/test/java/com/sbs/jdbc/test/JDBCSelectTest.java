@@ -1,6 +1,6 @@
 package com.sbs.jdbc.test;
 
-import com.sbs.jdbc.board.Article;
+import com.sbs.jdbc.board.dto.Article;
 
 import java.sql.*;
 import java.util.ArrayList;

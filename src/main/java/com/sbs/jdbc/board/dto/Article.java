@@ -1,4 +1,4 @@
-package com.sbs.jdbc.board;
+package com.sbs.jdbc.board.dto;
 
 import java.util.Comparator;
 import java.util.Map;
