@@ -1,6 +1,7 @@
 package com.sbs.jdbc.board;
 
 import java.util.Comparator;
+import java.util.Map;
 
 public class Article {
   public int id;
@@ -10,7 +11,6 @@ public class Article {
   public String title;
   public String body;
 
-  // 생성자 메서드 : 객첵가 만들어질 때 딱 한번 실행!!
   public Article(int id, String title, String body) {
     this.id = id;
     this.title = title;
@@ -25,8 +25,12 @@ public class Article {
     this.body = body;
   }
 
-  public int getId() {
-    return id;
+  public Article(Map<String, Object> articleMap) {
+    this.id = (int) articleMap.get("id");
+    this.regDate = (String) articleMap.get("regDate");
+    this.updateDate = (String) articleMap.get("updateDate");
+    this.title = (String) articleMap.get("title");
+    this.body = (String) articleMap.get("body");
   }
 
   @Override
@@ -37,6 +41,4 @@ public class Article {
         ", body='" + body + '\'' +
         '}';
   }
-
-  public static Comparator<Article> idComparator = Comparator.comparingInt(Article::getId);
 }

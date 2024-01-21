@@ -1,10 +1,10 @@
-package com.sbs.jdbc.board;
+package com.sbs.jdbc.board.util;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Util {
-  static Map<String, String> getParamsFromUrl(String url) {
+  public static Map<String, String> getParamsFromUrl(String url) {
     Map<String, String> params = new HashMap<>();
     String[] urlBits = url.split("\\?", 2);
 
@@ -27,7 +27,7 @@ public class Util {
     return params;
   }
 
-  static String getUrlPathFromUrl(String url) {
+  public static String getUrlPathFromUrl(String url) {
     return url.split("\\?", 2)[0];
   }
 }
