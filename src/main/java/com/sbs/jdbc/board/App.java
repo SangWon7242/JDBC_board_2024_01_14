@@ -26,17 +26,21 @@ public class App {
     System.out.println("== JDBC 게시판 프로그램 ==");
     Scanner sc = new Scanner(System.in);
 
-    while (true) {
-      System.out.printf("명령) ");
-      String cmd = sc.nextLine();
-      Rq rq = new Rq(cmd);
+    try {
+      while (true) {
+        System.out.printf("명령) ");
+        String cmd = sc.nextLine();
+        Rq rq = new Rq(cmd);
 
-      // DB 세팅
-      MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "text_board");
-      MysqlUtil.setDevMode(isDevMode());
+        // DB 세팅
+        MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "text_board");
+        MysqlUtil.setDevMode(isDevMode());
 
-      // 명령 로직 실행
-      doAction(sc, rq);
+        // 명령 로직 실행
+        doAction(sc, rq);
+      }
+    } finally {
+      sc.close();
     }
   }
 
@@ -72,7 +76,7 @@ public class App {
 
       List<Map<String, Object>> articlesListMap = MysqlUtil.selectRows(sql);
 
-      for(Map<String, Object> articleMap : articlesListMap) {
+      for (Map<String, Object> articleMap : articlesListMap) {
         articles.add(new Article(articleMap));
       }
 
@@ -108,6 +112,33 @@ public class App {
       MysqlUtil.update(sql);
 
       System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
+    } else if (rq.getUrlPath().equals("/usr/article/delete")) {
+      int id = rq.getIntParam("id", 0);
+
+      if (id == 0) {
+        System.out.println("id를 올바르게 입력해주세요.");
+        return;
+      }
+
+      SecSql sql = new SecSql();
+      sql.append("SELECT COUNT(*) AS cnt");
+      sql.append("FROM article");
+      sql.append("WHERE id = ?", id);
+
+      int articlesCount = MysqlUtil.selectRowIntValue(sql);
+
+      if(articlesCount == 0) {
+        System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+        return;
+      }
+
+      sql = new SecSql();
+      sql.append("DELETE FROM article");
+      sql.append("WHERE id = ?", id);
+
+      MysqlUtil.delete(sql);
+
+      System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
     } else if (rq.getUrlPath().equals("exit")) {
       System.out.println("== 프로그램을 종료합니다 ==");
       System.exit(0);
