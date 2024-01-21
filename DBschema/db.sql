@@ -11,6 +11,7 @@ CREATE TABLE article (
 	`body` TEXT NOT NULL
 );
 
+
 # 회원 테이블 생성
 CREATE TABLE `member` (
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -20,3 +21,13 @@ CREATE TABLE `member` (
 	loginPw CHAR(200) NOT NULL,
 	`name` CHAR(100) NOT NULL
 );
+
+SELECT * FROM `member`
+
+# loginId 칼럼에 unique 제약 조건
+ALTER TABLE `member` MODIFY loginId CHAR(200) NOT NULL UNIQUE;
+
+# 해당 로그인 아이디가 있으면 1(true)을 반환 없으면 0(false)을 반환
+SELECT COUNT(*) > 0
+FROM `member`
+WHERE loginId = 'user1';
