@@ -1,6 +1,7 @@
 package com.sbs.jdbc.board.service;
 
 import com.sbs.jdbc.board.cotainer.Container;
+import com.sbs.jdbc.board.dto.Article;
 import com.sbs.jdbc.board.repository.ArticleRepository;
 
 import java.util.List;
@@ -17,12 +18,12 @@ public class ArticleService {
     return articleRepository.write(title, body);
   }
 
-  public List<Map<String, Object>> getArticlesMap() {
-    return articleRepository.getArticlesMap();
+  public List<Article> getForPrintArticles() {
+    return articleRepository.getForPrintArticles();
   }
 
-  public Map<String, Object> getArticleMap(int id) {
-    return articleRepository.getArticleMap(id);
+  public Article getForPrintArticleById(int id) {
+    return articleRepository.getForPrintArticleById(id);
   }
 
   public int getArticleCount(int id) {

@@ -11,6 +11,7 @@ public class Article {
   public String title;
   public String body;
 
+  // 테스트를 위한 생성자
   public Article(int id, String regDate, String updateDate, String title, String body) {
     this.id = id;
     this.regDate = regDate;
@@ -19,12 +20,12 @@ public class Article {
     this.body = body;
   }
 
-  public Article(Map<String, Object> articleMap) {
-    this.id = (int) articleMap.get("id");
-    this.regDate = (String) articleMap.get("regDate");
-    this.updateDate = (String) articleMap.get("updateDate");
-    this.title = (String) articleMap.get("title");
-    this.body = (String) articleMap.get("body");
+  public Article(Map<String, Object> selectRow) {
+    this.id = (int) selectRow.get("id");
+    this.regDate = (String) selectRow.get("regDate");
+    this.updateDate = (String) selectRow.get("updateDate");
+    this.title = (String) selectRow.get("title");
+    this.body = (String) selectRow.get("body");
   }
 
   @Override
