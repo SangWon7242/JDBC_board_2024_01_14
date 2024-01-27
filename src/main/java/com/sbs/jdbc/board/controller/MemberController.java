@@ -96,6 +96,12 @@ public class MemberController {
     String loginId;
     String loginPw;
     Member member = null;
+    
+    // 중복 로그인 금지 기능
+    if(Container.session.loginedMemeber != null) {
+      System.out.println("현재 로그인 되어 있습니다.");
+      return;
+    }
 
     System.out.println("== 로그인 ==");
 
