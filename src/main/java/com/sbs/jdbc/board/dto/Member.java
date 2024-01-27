@@ -1,15 +1,21 @@
 package com.sbs.jdbc.board.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Member {
-  public int id;
-  public String regDate;
-  public String updateDate;
-
-  public String loginId;
-  public String loginPw;
-  public String name;
+  private int id;
+  private String regDate;
+  private String updateDate;
+  private String loginId;
+  private String loginPw;
+  private String name;
 
   public Member(Map<String, Object> selectRow) {
     this.id = (int) selectRow.get("id");
@@ -20,15 +26,4 @@ public class Member {
     this.name = (String) selectRow.get("name");
   }
 
-  @Override
-  public String toString() {
-    return "Member{" +
-        "id=" + id +
-        ", regDate='" + regDate + '\'' +
-        ", updateDate='" + updateDate + '\'' +
-        ", loginId='" + loginId + '\'' +
-        ", loginPw='" + loginPw + '\'' +
-        ", name='" + name + '\'' +
-        '}';
-  }
 }
