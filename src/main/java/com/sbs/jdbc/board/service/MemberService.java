@@ -1,6 +1,7 @@
 package com.sbs.jdbc.board.service;
 
 import com.sbs.jdbc.board.cotainer.Container;
+import com.sbs.jdbc.board.dto.Member;
 import com.sbs.jdbc.board.repository.MemberRepository;
 
 public class MemberService {
@@ -14,5 +15,9 @@ public class MemberService {
 
   public void join(String loginId, String loginPw, String name) {
     memberRepository.join(loginId, loginPw, name);
+  }
+
+  public Member getMemberByLoginId(String loginId) {
+    return memberRepository.getMemberByLoginId(loginId);
   }
 }

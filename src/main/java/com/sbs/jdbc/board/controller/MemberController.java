@@ -1,6 +1,7 @@
 package com.sbs.jdbc.board.controller;
 
 import com.sbs.jdbc.board.cotainer.Container;
+import com.sbs.jdbc.board.dto.Member;
 import com.sbs.jdbc.board.service.MemberService;
 
 public class MemberController {
@@ -89,5 +90,53 @@ public class MemberController {
     memberService.join(loginId, loginPw, name);
 
     System.out.printf("\"%s\"님 회원 가입되었습니다.\n", name);
+  }
+
+  public void login() {
+    String loginId;
+    String loginPw;
+
+    System.out.println("== 로그인 ==");
+    System.out.printf("로그인 아이디 : ");
+    loginId = Container.scanner.nextLine().trim();
+
+    if (loginId.length() == 0) {
+      System.out.println("로그인 아이디를 입력해주세요.");
+      return;
+    }
+
+    Member member = memberService.getMemberByLoginId(loginId);
+
+    if (member == null) {
+      System.out.println("입력하신 로그인 아이디는 존재하지 않습니다.");
+      return;
+    }
+
+    int tryMaxCount = 3;
+    int tryCount = 0;
+
+    while (true) {
+      if(tryCount == tryMaxCount) {
+        System.out.println("비밀번호 확인 후 다음에 다시 입력해주세요.");
+        break;
+      }
+
+      System.out.printf("로그인 비밀번호 : ");
+      loginPw = Container.scanner.nextLine().trim();
+
+      if (loginPw.length() == 0) {
+        System.out.println("로그인 비밀번호를 입력해주세요.");
+        return;
+      }
+
+      if(member.loginPw.equals(loginPw) == false) {
+        System.out.println("비밀번호가 일치하지 않습니다.");
+        tryCount++;
+        continue;
+      }
+
+      System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.name);
+      break;
+    }
   }
 }
