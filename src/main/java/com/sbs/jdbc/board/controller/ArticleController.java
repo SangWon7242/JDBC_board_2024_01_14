@@ -3,19 +3,17 @@ package com.sbs.jdbc.board.controller;
 import com.sbs.jdbc.board.Rq;
 import com.sbs.jdbc.board.cotainer.Container;
 import com.sbs.jdbc.board.dto.Article;
-import com.sbs.jdbc.board.util.MysqlUtil;
-import com.sbs.jdbc.board.util.SecSql;
+import com.sbs.jdbc.board.service.ArticleService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ArticleController {
-
-  private List<Article> articles;
+  private ArticleService articleService;
 
   public ArticleController() {
-    articles = new ArrayList<>();
+    articleService = Container.articleService;
   }
 
   public void write() {
@@ -26,27 +24,16 @@ public class ArticleController {
     System.out.printf("내용 : ");
     String body = Container.scanner.nextLine();
 
-    SecSql sql = new SecSql();
-    sql.append("INSERT INTO article");
-    sql.append("SET regDate = NOW()");
-    sql.append(", updateDate = NOW()");
-    sql.append(", title = ?", title);
-    sql.append(", `body` = ?", body);
-
-    int id = MysqlUtil.insert(sql);
+    int id = articleService.write(title, body);
 
     System.out.printf("%d번 게시물이 작성되었습니다.\n", id);
   }
 
   public void list() {
     System.out.println("== 게시물 리스트 ==");
+    List<Article> articles = new ArrayList<>();
 
-    SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
-    sql.append("ORDER BY id DESC");
-
-    List<Map<String, Object>> articlesListMap = MysqlUtil.selectRows(sql);
+    List<Map<String, Object>> articlesListMap = articleService.getArticlesMap();
 
     for (Map<String, Object> articleMap : articlesListMap) {
       articles.add(new Article(articleMap));
@@ -71,12 +58,7 @@ public class ArticleController {
       return;
     }
 
-    SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
-    sql.append("WHERE id = ?", id);
-
-    Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
+    Map<String, Object> articleMap = articleService.getArticleMap(id);
 
     if (articleMap.isEmpty()) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -101,12 +83,7 @@ public class ArticleController {
       return;
     }
 
-    SecSql sql = new SecSql();
-    sql.append("SELECT COUNT(*) AS cnt");
-    sql.append("FROM article");
-    sql.append("WHERE id = ?", id);
-
-    int articlesCount = MysqlUtil.selectRowIntValue(sql);
+    int articlesCount = articleService.getArticleCount(id);
 
     if (articlesCount == 0) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -118,14 +95,7 @@ public class ArticleController {
     System.out.printf("새 내용 : ");
     String body = Container.scanner.nextLine();
 
-    sql = new SecSql();
-    sql.append("UPDATE article");
-    sql.append("SET updateDate = NOW()");
-    sql.append(", title = ?", title);
-    sql.append(", `body` = ?", body);
-    sql.append("WHERE id = ?", id);
-
-    MysqlUtil.update(sql);
+    articleService.update(id, title, body);
 
     System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
   }
@@ -138,23 +108,14 @@ public class ArticleController {
       return;
     }
 
-    SecSql sql = new SecSql();
-    sql.append("SELECT COUNT(*) AS cnt");
-    sql.append("FROM article");
-    sql.append("WHERE id = ?", id);
-
-    int articlesCount = MysqlUtil.selectRowIntValue(sql);
+    int articlesCount = articleService.getArticleCount(id);;
 
     if (articlesCount == 0) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
 
-    sql = new SecSql();
-    sql.append("DELETE FROM article");
-    sql.append("WHERE id = ?", id);
-
-    MysqlUtil.delete(sql);
+    articleService.delete(id);
 
     System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
   }
