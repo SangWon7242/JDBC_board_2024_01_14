@@ -61,6 +61,7 @@ public class ArticleController {
       return;
     }
 
+    articleService.increaseHit(id);
     Article article = articleService.getForPrintArticleById(id);
 
     if (article == null) {
@@ -72,6 +73,8 @@ public class ArticleController {
     System.out.printf("번호 : %d\n", article.getId());
     System.out.printf("작성날짜 : %s\n", article.getRegDate());
     System.out.printf("수정날짜 : %s\n", article.getUpdateDate());
+    System.out.printf("작성자 : %s\n", article.getExtra__writerName());
+    System.out.printf("조회수 : %s\n", article.getHit());
     System.out.printf("제목 : %s\n", article.getTitle());
     System.out.printf("내용 : %s\n", article.getBody());
   }

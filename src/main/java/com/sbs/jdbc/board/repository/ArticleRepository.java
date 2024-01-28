@@ -43,9 +43,12 @@ public class ArticleRepository {
 
   public Article getForPrintArticleById(int id) {
     SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
-    sql.append("WHERE id = ?", id);
+    sql.append("SELECT A.*");
+    sql.append(", M.name AS extra__writerName");
+    sql.append("FROM article AS A");
+    sql.append("INNER JOIN `member` AS M");
+    sql.append("ON A.memberId = M.id");
+    sql.append("WHERE A.id = ?", id);
 
     Map<String, Object> selectRow = MysqlUtil.selectRow(sql);
 
@@ -82,5 +85,14 @@ public class ArticleRepository {
     sql.append("WHERE id = ?", id);
 
     MysqlUtil.delete(sql);
+  }
+
+  public void increaseHit(int id) {
+    SecSql sql = new SecSql();
+    sql.append("UPDATE article");
+    sql.append("SET hit = hit + 1");
+    sql.append("WHERE id = ?", id);
+
+    MysqlUtil.update(sql);
   }
 }

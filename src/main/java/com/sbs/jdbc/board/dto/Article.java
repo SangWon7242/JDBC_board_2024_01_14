@@ -13,6 +13,7 @@ public class Article {
   private int memberId;
   private String title;
   private String body;
+  private int hit;
 
   private String extra__writerName;
 
@@ -23,6 +24,7 @@ public class Article {
     this.memberId = (int) selectRow.get("memberId");
     this.title = (String) selectRow.get("title");
     this.body = (String) selectRow.get("body");
+    this.hit = (int) selectRow.get("hit");
 
     if(selectRow.get("extra__writerName") != null) {
       this.extra__writerName = (String) selectRow.get("extra__writerName");

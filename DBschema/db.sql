@@ -42,3 +42,31 @@ loginPw = 'user2',
 
 # 게시물 테이블에 memberId 칼럼 추가
 ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL;
+
+# 게시물 테이블에 hit 칼럼 추가
+ALTER TABLE article ADD COLUMN hit INT UNSIGNED NOT NULL;
+
+# 게시물 추가
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '제목1',
+`body` = '내용1',
+memberId = 1,
+hit = 0;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '제목2',
+`body` = '내용2',
+memberId = 2,
+hit = 0;
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '제목3',
+`body` = '내용3',
+memberId = 2,
+hit = 0;
