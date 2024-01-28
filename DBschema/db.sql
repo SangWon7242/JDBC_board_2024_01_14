@@ -22,12 +22,23 @@ CREATE TABLE `member` (
 	`name` CHAR(100) NOT NULL
 );
 
-SELECT * FROM `member`
-
 # loginId 칼럼에 unique 제약 조건
 ALTER TABLE `member` MODIFY loginId CHAR(200) NOT NULL UNIQUE;
 
-# 해당 로그인 아이디가 있으면 1(true)을 반환 없으면 0(false)을 반환
-SELECT COUNT(*) > 0
-FROM `member`
-WHERE loginId = 'user1';
+# 임시회원
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user1',
+loginPw = 'user1',
+`name` = '신짱구';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'user2',
+loginPw = 'user2',
+`name` = '김철수';
+
+# 게시물 테이블에 memberId 칼럼 추가
+ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL;

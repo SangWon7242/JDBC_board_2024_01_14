@@ -5,7 +5,6 @@ import com.sbs.jdbc.board.dto.Article;
 import com.sbs.jdbc.board.repository.ArticleRepository;
 
 import java.util.List;
-import java.util.Map;
 
 public class ArticleService {
   private ArticleRepository articleRepository;
@@ -14,8 +13,8 @@ public class ArticleService {
     articleRepository = Container.articleRepository;
   }
 
-  public int write(String title, String body) {
-    return articleRepository.write(title, body);
+  public int write(int memberId, String title, String body) {
+    return articleRepository.write(memberId, title, body);
   }
 
   public List<Article> getForPrintArticles() {

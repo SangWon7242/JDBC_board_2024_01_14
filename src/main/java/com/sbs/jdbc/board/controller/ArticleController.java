@@ -22,6 +22,9 @@ public class ArticleController {
       return;
     }
 
+    int memberId = Container.session.loginedMemberId;
+    // String writerName = Container.session.loginedMemeber.getName();
+
     System.out.println("== 게시물 작성 ==");
     System.out.printf("제목 : ");
     String title = Container.scanner.nextLine();
@@ -29,7 +32,7 @@ public class ArticleController {
     System.out.printf("내용 : ");
     String body = Container.scanner.nextLine();
 
-    int id = articleService.write(title, body);
+    int id = articleService.write(memberId, title, body);
 
     System.out.printf("%d번 게시물이 작성되었습니다.\n", id);
   }
