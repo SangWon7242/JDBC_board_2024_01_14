@@ -20,4 +20,12 @@ public class MemberService {
   public Member getMemberByLoginId(String loginId) {
     return memberRepository.getMemberByLoginId(loginId);
   }
+
+  public Member getMemberByEmail(String email) {
+    return memberRepository.getMemberByEmail(email);
+  }
+
+  public void changeLoginPw(String loginId, String loginPw) {
+    memberRepository.changeLoginPw(loginId, loginPw);
+  }
 }

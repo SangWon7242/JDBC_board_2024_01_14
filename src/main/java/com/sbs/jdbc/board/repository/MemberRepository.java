@@ -43,4 +43,28 @@ public class MemberRepository {
 
     return new Member(selectRow);
   }
+
+  public Member getMemberByEmail(String email) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT *");
+    sql.append("FROM `member`");
+    sql.append("WHERE email = ?", email);
+
+    Map<String, Object> selectRow = MysqlUtil.selectRow(sql);
+
+    if(selectRow.isEmpty()) {
+      return null;
+    }
+
+    return new Member(selectRow);
+  }
+
+  public void changeLoginPw(String loginId, String loginPw) {
+    SecSql sql = new SecSql();
+    sql.append("UPDATE `member`");
+    sql.append("SET loginPw = ?", loginPw);
+    sql.append("WHERE loginId = ?", loginId);
+
+    MysqlUtil.update(sql);
+  }
 }
