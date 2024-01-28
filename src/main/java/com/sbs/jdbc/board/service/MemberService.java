@@ -28,4 +28,8 @@ public class MemberService {
   public void changeLoginPw(String loginId, String loginPw) {
     memberRepository.changeLoginPw(loginId, loginPw);
   }
+
+  public boolean checkLoginIdAndEmailMatch(String loginId, String email) {
+    return memberRepository.checkLoginIdAndEmailMatch(loginId, email);
+  }
 }

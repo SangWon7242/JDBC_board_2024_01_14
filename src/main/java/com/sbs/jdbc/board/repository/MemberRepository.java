@@ -67,4 +67,14 @@ public class MemberRepository {
 
     MysqlUtil.update(sql);
   }
+
+  public boolean checkLoginIdAndEmailMatch(String loginId, String email) {
+    SecSql sql = new SecSql();
+    sql.append("SELECT COUNT(*) > 0");
+    sql.append("FROM `member`");
+    sql.append("WHERE loginId = ?", loginId);
+    sql.append("AND email = ?", email);
+
+    return MysqlUtil.selectRowBooleanValue(sql);
+  }
 }

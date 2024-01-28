@@ -223,6 +223,13 @@ public class MemberController {
       return;
     }
 
+    boolean isMatch = memberService.checkLoginIdAndEmailMatch(loginId, email);
+
+    if(isMatch == false) {
+      System.out.println("입력한 로그인 아이디와 이메일은 일치하지 않습니다.");
+      return;
+    }
+
     System.out.printf("새 비밀번호 : ");
     String newLoginPw = Container.scanner.nextLine().trim();
 
