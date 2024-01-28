@@ -9,4 +9,22 @@ public class Session {
   public Session() {
     loginedMemberId = -1;
   }
+
+  public boolean isLogined() {
+    return loginedMemberId != -1;
+  }
+
+  public void login(Member member) {
+    loginedMemberId = member.getId();
+    loginedMemeber = member;
+  }
+
+  public boolean isLogout() {
+    return loginedMemberId == -1;
+  }
+
+  public void logout() {
+    loginedMemberId = -1;
+    loginedMemeber = null;
+  }
 }

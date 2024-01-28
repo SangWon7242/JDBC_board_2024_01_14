@@ -96,9 +96,9 @@ public class MemberController {
     String loginId;
     String loginPw;
     Member member = null;
-    
+
     // 중복 로그인 금지 기능
-    if(Container.session.loginedMemeber != null) {
+    if(Container.session.isLogined()) {
       System.out.println("현재 로그인 되어 있습니다.");
       return;
     }
@@ -158,8 +158,8 @@ public class MemberController {
       }
 
       System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.getName());
-      Container.session.loginedMemberId = member.getId();
-      Container.session.loginedMemeber = member;
+      Container.session.login(member);
+
       break;
     }
   }
@@ -167,11 +167,21 @@ public class MemberController {
   public void whoami() {
     String loginId;
 
-    if(Container.session.loginedMemberId == -1) {
+    if(Container.session.isLogined() == false) {
       System.out.println("로그인 상태가 아닙니다.");
     } else {
       loginId = Container.session.loginedMemeber.getLoginId();
       System.out.printf("현재 로그인한 회원은 \"%s\" 입니다.\n", loginId);
     }
+  }
+
+  public void logout() {
+    if(Container.session.isLogout()) {
+      System.out.println("현재 로그아웃 상태입니다.");
+      return;
+    }
+
+    Container.session.logout();
+    System.out.println("로그아웃 되었습니다.");
   }
 }
