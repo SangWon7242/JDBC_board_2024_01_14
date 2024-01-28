@@ -5,9 +5,7 @@ import com.sbs.jdbc.board.cotainer.Container;
 import com.sbs.jdbc.board.dto.Article;
 import com.sbs.jdbc.board.service.ArticleService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ArticleController {
   private ArticleService articleService;
@@ -36,10 +34,19 @@ public class ArticleController {
     System.out.printf("%d번 게시물이 작성되었습니다.\n", id);
   }
 
-  public void list() {
+  public void list(Rq rq) {
+    int page = rq.getIntParam("page", 1);
+    String searchKeyword = rq.getParam("searchKeyword", "");
+
     System.out.println("== 게시물 리스트 ==");
 
-    List<Article> articles = articleService.getForPrintArticles();
+    // 한 페이지에 보여줄 게시물 개수
+    int pageItemCount = 10;
+
+    // 임시
+    pageItemCount = 5;
+
+    List<Article> articles = articleService.getForPrintArticles(page, pageItemCount, searchKeyword);
 
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");

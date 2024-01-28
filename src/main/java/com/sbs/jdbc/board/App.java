@@ -48,7 +48,7 @@ public class App {
     if (rq.getUrlPath().equals("/usr/article/write")) {
      articleController.write();
     } else if (rq.getUrlPath().equals("/usr/article/list")) {
-      articleController.list();
+      articleController.list(rq);
     } else if (rq.getUrlPath().equals("/usr/article/detail")) {
       articleController.detail(rq);
     } else if (rq.getUrlPath().equals("/usr/article/modify")) {

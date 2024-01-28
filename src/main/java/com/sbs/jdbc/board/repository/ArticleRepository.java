@@ -23,13 +23,39 @@ public class ArticleRepository {
     return id;
   }
 
-  public List<Article> getForPrintArticles() {
+  public List<Article> getForPrintArticles(Map<String, Object> args) {
+    String searchKeyword = "";
+
+    if(args.containsKey("searchKeyword")) {
+      searchKeyword = (String) args.get("searchKeyword");
+    }
+
+    int limitFrom = -1;
+    int limitTake = -1;
+
+    if(args.containsKey("limitFrom")) {
+      limitFrom = (int) args.get("limitFrom");
+    }
+
+    if(args.containsKey("limitTake")) {
+      limitTake = (int) args.get("limitTake");
+    }
+
     SecSql sql = new SecSql();
     sql.append("SELECT A.*, M.name AS extra__writerName");
     sql.append("FROM article AS A");
     sql.append("INNER JOIN `member` AS M");
     sql.append("ON A.memberId = M.id");
+
+    if(searchKeyword.length() > 0) {
+      sql.append("WHERE A.title LIKE CONCAT('%', ?, '%')", searchKeyword);
+    }
+
     sql.append("ORDER BY id DESC");
+
+    if(limitFrom != -1) {
+      sql.append("LIMIT ?, ?", limitFrom, limitTake);
+    }
 
     List<Map<String, Object>> selectRows = MysqlUtil.selectRows(sql);
     List<Article> articles = new ArrayList<>();
@@ -95,4 +121,5 @@ public class ArticleRepository {
 
     MysqlUtil.update(sql);
   }
+
 }
