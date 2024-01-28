@@ -47,9 +47,9 @@ public class ArticleController {
       return;
     }
 
-    System.out.println("번호 / 제목");
+    System.out.println("번호 / 작성날짜 / 제목 / 작성");
     for (Article article : articles) {
-      System.out.printf("%d / %s\n", article.getId(), article.getTitle());
+      System.out.printf("%d / %s / %s / %s\n", article.getId(), article.getRegDate(), article.getTitle(), article.getExtra__writerName());
     }
   }
 
